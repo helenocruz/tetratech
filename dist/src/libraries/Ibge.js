@@ -84,7 +84,7 @@ var Ibge = /** @class */ (function () {
                         _this.getDataIbge()
                             .then(function (dataIbge) {
                             if (typeof dataIbge !== 'object') {
-                                resolve({ error: 'Erro ao obter informações da API do IBGE.' });
+                                reject({ status: 500, data: { error: 'Erro ao obter informações da API do IBGE.' } });
                             }
                             var dateReturned = dataIbge.horario;
                             var date = dateReturned.substring(6, 10) + '-' + dateReturned.substring(3, 5) + '-' + dateReturned.substring(0, 2);
@@ -99,16 +99,6 @@ var Ibge = /** @class */ (function () {
                             .catch(function (error) {
                             reject({ status: 500, data: error });
                         });
-                    })];
-            });
-        });
-    };
-    Ibge.prototype.getCalculoProjecaoPopulacional = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                return [2 /*return*/, new Promise(function (resolve) {
-                        resolve(_this.getProjecaoPopulacional());
                     })];
             });
         });

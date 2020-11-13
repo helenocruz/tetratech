@@ -19,7 +19,7 @@ export class Ibge {
         //Metodo que realizado o calculo da Projecção Populacional
         //As entradas devem ser, obrigatoriamente, positivas e o resultado retornado deve ser positivo e maior que zero.
         if(projecaoPopulacaoAtual <= 0 || additionalTime_Utc <= 0 || incrementoPopulacional <= 0) return false;
-        let projecaoPopulacaoFutura : number = (additionalTime_Utc/incrementoPopulacional) + projecaoPopulacaoAtual;
+        let projecaoPopulacaoFutura : number = (additionalTime_Utc / incrementoPopulacional) + projecaoPopulacaoAtual;
         return Math.round(projecaoPopulacaoFutura); 
     }
 
@@ -40,7 +40,7 @@ export class Ibge {
             this.getDataIbge()
             .then((dataIbge : any)=>{
                 if(typeof dataIbge !== 'object') {
-                    resolve({error: 'Erro ao obter informações da API do IBGE.'});
+                    reject({status: 500, data: {error: 'Erro ao obter informações da API do IBGE.'}});
                 }
                 
                 let dateReturned : String = dataIbge.horario;
@@ -63,11 +63,4 @@ export class Ibge {
             });
         });
     }
-
-    async getCalculoProjecaoPopulacional(): Promise<any> {
-        return new Promise((resolve)=>{
-            resolve(this.getProjecaoPopulacional());
-        });
-    }
-
 }
