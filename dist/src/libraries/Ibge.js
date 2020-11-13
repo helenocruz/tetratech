@@ -49,7 +49,16 @@ var Ibge = /** @class */ (function () {
         datetime_search_Date = new Date(datetime_search_Date.getTime() - (datetime_search_Date.getTimezoneOffset() * 60 * 1000));
         this.dataSearch_Utc = Date.UTC(datetime_search_Date.getFullYear(), datetime_search_Date.getMonth(), datetime_search_Date.getDay(), datetime_search_Date.getHours(), datetime_search_Date.getMinutes(), datetime_search_Date.getSeconds());
     }
-    Ibge.prototype.calcProjecaoPopulacional = function () {
+    Ibge.prototype.calcProjecaoPopulacional = function (projecaoPopulacaoAtual, additionalTime_Utc, incrementoPopulacional) {
+        if (projecaoPopulacaoAtual === void 0) { projecaoPopulacaoAtual = 0; }
+        if (additionalTime_Utc === void 0) { additionalTime_Utc = 0; }
+        if (incrementoPopulacional === void 0) { incrementoPopulacional = 0; }
+        //Metodo que realizado o calculo da Projecção Populacional
+        //As entradas devem ser, obrigatoriamente, positivas e o resultado retornado deve ser positivo e maior que zero.
+        if (projecaoPopulacaoAtual <= 0 || additionalTime_Utc <= 0 || incrementoPopulacional <= 0)
+            return false;
+        var projecaoPopulacaoFutura = (additionalTime_Utc / incrementoPopulacional) + projecaoPopulacaoAtual;
+        return Math.round(projecaoPopulacaoFutura);
     };
     Ibge.prototype.getDataIbge = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -61,7 +70,7 @@ var Ibge = /** @class */ (function () {
                             resolve(result);
                         })
                             .catch(function (error) {
-                            reject(error);
+                            reject({ status: 500, data: error });
                         });
                     })];
             });
@@ -83,11 +92,12 @@ var Ibge = /** @class */ (function () {
                             var dateIBGE = new Date(date + ' ' + time);
                             dateIBGE = new Date(dateIBGE.getTime() - (dateIBGE.getTimezoneOffset() * 60 * 1000));
                             var dateIBGE_Utc = Date.UTC(dateIBGE.getFullYear(), dateIBGE.getMonth(), dateIBGE.getDay(), dateIBGE.getHours(), dateIBGE.getMinutes(), dateIBGE.getSeconds());
-                            var diffBetweenDates = _this.dataSearch_Utc - dateIBGE_Utc;
-                            resolve({ status: 200, data: dataIbge });
+                            var diffBetweenDates_Utc = _this.dataSearch_Utc - dateIBGE_Utc;
+                            var projecaoPopulacaoFutura = _this.calcProjecaoPopulacional(dataIbge.projecao.populacao, diffBetweenDates_Utc, dataIbge.projecao.periodoMedio.incrementoPopulacional); //fazer teste neste retorno
+                            resolve({ status: 200, data: { projecao: projecaoPopulacaoFutura } });
                         })
                             .catch(function (error) {
-                            reject({ status: 500, data: 'Erro ao consulta dados na API do IBGE.' });
+                            reject({ status: 500, data: error });
                         });
                     })];
             });

@@ -15,8 +15,12 @@ export class Ibge {
         this.dataSearch_Utc = Date.UTC(datetime_search_Date.getFullYear(), datetime_search_Date.getMonth(), datetime_search_Date.getDay(), datetime_search_Date.getHours(), datetime_search_Date.getMinutes(), datetime_search_Date.getSeconds());
     }
 
-    private calcProjecaoPopulacional(){
-
+    private calcProjecaoPopulacional(projecaoPopulacaoAtual : number = 0, additionalTime_Utc : number = 0, incrementoPopulacional : number = 0){
+        //Metodo que realizado o calculo da Projecção Populacional
+        //As entradas devem ser, obrigatoriamente, positivas e o resultado retornado deve ser positivo e maior que zero.
+        if(projecaoPopulacaoAtual <= 0 || additionalTime_Utc <= 0 || incrementoPopulacional <= 0) return false;
+        let projecaoPopulacaoFutura : number = (additionalTime_Utc/incrementoPopulacional) + projecaoPopulacaoAtual;
+        return Math.round(projecaoPopulacaoFutura); 
     }
 
     async getDataIbge(){
@@ -26,7 +30,7 @@ export class Ibge {
                 resolve(result);
             })
             .catch((error)=>{
-                reject(error);
+                reject({status: 500, data: error});
             });
         });
     }
@@ -48,12 +52,14 @@ export class Ibge {
                 dateIBGE = new Date(dateIBGE.getTime() - (dateIBGE.getTimezoneOffset()*60*1000));
                 let dateIBGE_Utc : number = Date.UTC(dateIBGE.getFullYear(), dateIBGE.getMonth(), dateIBGE.getDay(), dateIBGE.getHours(), dateIBGE.getMinutes(), dateIBGE.getSeconds());
                 
-                let diffBetweenDates = this.dataSearch_Utc - dateIBGE_Utc;
+                let diffBetweenDates_Utc = this.dataSearch_Utc - dateIBGE_Utc;
+
+                let projecaoPopulacaoFutura = this.calcProjecaoPopulacional(dataIbge.projecao.populacao, diffBetweenDates_Utc, dataIbge.projecao.periodoMedio.incrementoPopulacional); //fazer teste neste retorno
                 
-                resolve({status: 200, data: dataIbge});
+                resolve({status: 200, data: {projecao: projecaoPopulacaoFutura}});
             })
             .catch((error)=>{
-                reject({status: 500, data: 'Erro ao consulta dados na API do IBGE.'});
+                reject({status: 500, data: error});
             });
         });
     }
