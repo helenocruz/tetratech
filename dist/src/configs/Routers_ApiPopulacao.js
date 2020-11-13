@@ -23,11 +23,18 @@ var Routers_ApiPopulacao = /** @class */ (function (_super) {
     }
     //Declaração de Rotas: Exclusívo Projeção Populacional
     Routers_ApiPopulacao.prototype.applyRouter = function (application) {
-        application.get('/consult', function (req, resp, next) {
-            var projecaoPopulacional = new ProjecaoPopulacional_1.ProjecaoPopulacional();
+        application.get('/consult:datetime', function (req, resp, next) {
+            var datetime_search = req.query.datetime;
+            var projecaoPopulacional = new ProjecaoPopulacional_1.ProjecaoPopulacional(datetime_search);
             projecaoPopulacional.consult()
                 .then(function (result) {
-                resp.json({ status: result });
+                resp.status(result.status);
+                resp.json(result.data);
+                return next();
+            })
+                .catch(function (error) {
+                resp.status(error.status);
+                resp.send(error.data);
                 return next();
             });
         });

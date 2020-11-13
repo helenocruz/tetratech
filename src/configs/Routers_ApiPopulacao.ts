@@ -4,16 +4,23 @@ import { ProjecaoPopulacional } from '../controllers/ProjecaoPopulacional';
 
 class Routers_ApiPopulacao extends Router{
     //Declaração de Rotas: Exclusívo Projeção Populacional
-
+    
     applyRouter(application: restify.Server) : any {
-
-        application.get('/consult',(req, resp, next) => {
-            let projecaoPopulacional = new ProjecaoPopulacional();
+        
+        application.get('/consult:datetime',(req, resp, next) => {
+            let datetime_search : String = req.query.datetime;
+            let projecaoPopulacional = new ProjecaoPopulacional(datetime_search);
             projecaoPopulacional.consult()
             .then((result)=>{
-                resp.json({status: result});
+                resp.status(result.status);
+                resp.json(result.data);
                 return next();    
             })
+            .catch((error)=>{
+                resp.status(error.status);
+                resp.send(error.data);
+                return next();  
+            });
         });   
 
         application.get('/log',(req, resp, next) => {

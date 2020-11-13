@@ -14,9 +14,11 @@ export class Server {
         return new Promise((res, rej)=>{
             try {
                 this.application = restify.createServer({
-                    name: 'TretaTech - Projeção Populacional - Teste 16/11/2020',
+                    name: 'TetraTech - Projeção Populacional - Teste 16/11/2020',
 	                version: '1.0.0',
                 });
+
+                this.application.use(restify.plugins.queryParser());
 
                 for(let router of routers){
                     router.applyRouter(this.application);
@@ -32,7 +34,8 @@ export class Server {
         });
     }
 
-    boot(routers: Router[] = []): Promise<Server>{
-        return this.startRoutes(routers).then(()=> this);
+    async boot(routers: Router[] = []): Promise<Server>{
+        await this.startRoutes(routers);
+        return this;
     }
 }
