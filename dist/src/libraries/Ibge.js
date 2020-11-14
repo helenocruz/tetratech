@@ -37,7 +37,7 @@ var Ibge = /** @class */ (function () {
                 resolve(result);
             })
                 .catch(function (error) {
-                reject({ status: 500, data: error });
+                reject(error);
             });
         });
     };
