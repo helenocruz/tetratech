@@ -9,10 +9,15 @@ export class ProjecaoPopulacional {
     }
 
     public consult(): Promise <any> {
-        return new Promise((resolve)=>{
+        return new Promise((resolve, reject)=>{
             let ibge = new Ibge(this.datetime_search);
-            let result = ibge.getProjecaoPopulacional();
-            resolve(result);
+            ibge.getProjecaoPopulacional()
+            .then((result)=>{
+                resolve(result);
+            })
+            .catch((error)=>{
+                reject(error);
+            })
         }); 
     }
 }

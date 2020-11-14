@@ -10,10 +10,15 @@ var ProjecaoPopulacional = /** @class */ (function () {
     }
     ProjecaoPopulacional.prototype.consult = function () {
         var _this = this;
-        return new Promise(function (resolve) {
+        return new Promise(function (resolve, reject) {
             var ibge = new Ibge_1.Ibge(_this.datetime_search);
-            var result = ibge.getProjecaoPopulacional();
-            resolve(result);
+            ibge.getProjecaoPopulacional()
+                .then(function (result) {
+                resolve(result);
+            })
+                .catch(function (error) {
+                reject(error);
+            });
         });
     };
     return ProjecaoPopulacional;

@@ -22,7 +22,7 @@ class Routers_ApiPopulacao extends Router{
             })
             .catch((error)=>{
                 resp.status(error.status);
-                resp.send(error.data);
+                resp.json(error.data);
                 return next();  
             });
         });   

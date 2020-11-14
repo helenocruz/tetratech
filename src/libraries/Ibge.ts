@@ -53,6 +53,10 @@ export class Ibge {
                 let dateIBGE_Utc : number = Date.UTC(dateIBGE.getFullYear(), dateIBGE.getMonth(), dateIBGE.getDay(), dateIBGE.getHours(), dateIBGE.getMinutes(), dateIBGE.getSeconds());
                 
                 let diffBetweenDates_Utc = this.dataSearch_Utc - dateIBGE_Utc;
+                console.log(diffBetweenDates_Utc);
+                if(diffBetweenDates_Utc < 0){
+                    reject({status: 400, data: {error: 'A data informada é anterior a data atual.'}});
+                }
 
                 let projecaoPopulacaoFutura = this.calcProjecaoPopulacional(dataIbge.projecao.populacao, diffBetweenDates_Utc, dataIbge.projecao.periodoMedio.incrementoPopulacional); //fazer teste neste retorno
                 

@@ -38,7 +38,7 @@ var Routers_ApiPopulacao = /** @class */ (function (_super) {
             })
                 .catch(function (error) {
                 resp.status(error.status);
-                resp.send(error.data);
+                resp.json(error.data);
                 return next();
             });
         });

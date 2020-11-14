@@ -51,6 +51,10 @@ var Ibge = /** @class */ (function () {
                 dateIBGE = new Date(dateIBGE.getTime() - (dateIBGE.getTimezoneOffset() * 60 * 1000));
                 var dateIBGE_Utc = Date.UTC(dateIBGE.getFullYear(), dateIBGE.getMonth(), dateIBGE.getDay(), dateIBGE.getHours(), dateIBGE.getMinutes(), dateIBGE.getSeconds());
                 var diffBetweenDates_Utc = _this.dataSearch_Utc - dateIBGE_Utc;
+                console.log(diffBetweenDates_Utc);
+                if (diffBetweenDates_Utc < 0) {
+                    reject({ status: 400, data: { error: 'A data informada é anterior a data atual.' } });
+                }
                 var projecaoPopulacaoFutura = _this.calcProjecaoPopulacional(dataIbge.projecao.populacao, diffBetweenDates_Utc, dataIbge.projecao.periodoMedio.incrementoPopulacional); //fazer teste neste retorno
                 resolve({ status: 200, data: { projecao: projecaoPopulacaoFutura, data: dateIBGE } });
             })
