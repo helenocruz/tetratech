@@ -8,11 +8,11 @@ export class LogManager {
         this.nameFile = nameFile;
     }
 
-    private readFile() : Promise<object> {
+    private readFile() : Promise<object | boolean> {
         return new Promise((resolve, reject)=>{
             fs.readFile(this.nameFile,'utf8', function(error, data){
                 if (error) {
-                    reject(error);
+                    reject(false);
                 }
                 try {
                     let data_Object = JSON.parse(data);
