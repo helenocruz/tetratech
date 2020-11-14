@@ -16,6 +16,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.routersApiPopulacao = void 0;
 var Router_1 = require("./Router");
 var ProjecaoPopulacional_1 = require("../controllers/ProjecaoPopulacional");
+var Log_1 = require("../controllers/Log");
+var LogManager_1 = require("../libraries/LogManager");
 var Routers_ApiPopulacao = /** @class */ (function (_super) {
     __extends(Routers_ApiPopulacao, _super);
     function Routers_ApiPopulacao() {
@@ -28,6 +30,8 @@ var Routers_ApiPopulacao = /** @class */ (function (_super) {
             var projecaoPopulacional = new ProjecaoPopulacional_1.ProjecaoPopulacional(datetime_search);
             projecaoPopulacional.consult()
                 .then(function (result) {
+                var logManager = new LogManager_1.LogManager();
+                logManager.addLog(result.data); //Adicionando registro de consulta no arquivo texto
                 resp.status(result.status);
                 resp.json(result.data);
                 return next();
@@ -38,9 +42,17 @@ var Routers_ApiPopulacao = /** @class */ (function (_super) {
                 return next();
             });
         });
-        application.get('/log', function (req, resp, next) {
-            resp.json({ status: true });
-            return next();
+        application.get('/logs', function (req, resp, next) {
+            var logController = new Log_1.Log();
+            logController.getConsults()
+                .then(function (result) {
+                resp.json(result);
+                return next();
+            })
+                .catch(function (error) {
+                resp.json(error);
+                return next();
+            });
         });
         //Futuras rotas relacionadas a Projeção População podem ser adicionadas aqui.
     };

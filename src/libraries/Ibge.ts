@@ -1,4 +1,4 @@
-import { getData } from './globalRest';
+import { getData } from './GlobalRest';
 
 export class Ibge {
 
@@ -15,7 +15,7 @@ export class Ibge {
         this.dataSearch_Utc = Date.UTC(datetime_search_Date.getFullYear(), datetime_search_Date.getMonth(), datetime_search_Date.getDay(), datetime_search_Date.getHours(), datetime_search_Date.getMinutes(), datetime_search_Date.getSeconds());
     }
 
-    private calcProjecaoPopulacional(projecaoPopulacaoAtual : number = 0, additionalTime_Utc : number = 0, incrementoPopulacional : number = 0){
+    private calcProjecaoPopulacional(projecaoPopulacaoAtual : number = 0, additionalTime_Utc : number = 0, incrementoPopulacional : number = 0) : number | boolean {
         //Metodo que realizado o calculo da Projecção Populacional
         //As entradas devem ser, obrigatoriamente, positivas e o resultado retornado deve ser positivo e maior que zero.
         if(projecaoPopulacaoAtual <= 0 || additionalTime_Utc <= 0 || incrementoPopulacional <= 0) return false;
@@ -23,7 +23,7 @@ export class Ibge {
         return Math.round(projecaoPopulacaoFutura); 
     }
 
-    async getDataIbge(){
+    getDataIbge() : Promise<object> {
         return new Promise((resolve, reject)=>{
             getData(this.url_ibge_projecao_populacao)
             .then((result)=>{
@@ -35,7 +35,7 @@ export class Ibge {
         });
     }
 
-    async getProjecaoPopulacional(): Promise<object> {
+    getProjecaoPopulacional(): Promise<object> {
         return new Promise((resolve, reject)=>{
             this.getDataIbge()
             .then((dataIbge : any)=>{
@@ -56,7 +56,7 @@ export class Ibge {
 
                 let projecaoPopulacaoFutura = this.calcProjecaoPopulacional(dataIbge.projecao.populacao, diffBetweenDates_Utc, dataIbge.projecao.periodoMedio.incrementoPopulacional); //fazer teste neste retorno
                 
-                resolve({status: 200, data: {projecao: projecaoPopulacaoFutura}});
+                resolve({status: 200, data: {projecao: projecaoPopulacaoFutura, data: dateIBGE}});
             })
             .catch((error)=>{
                 reject({status: 500, data: error});

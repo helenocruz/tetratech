@@ -8,7 +8,7 @@ export class ProjecaoPopulacional {
         this.datetime_search = datetime_search;
     }
 
-    public async consult(): Promise <any> {
+    public consult(): Promise <any> {
         return new Promise((resolve)=>{
             let ibge = new Ibge(this.datetime_search);
             let result = ibge.getProjecaoPopulacional();
