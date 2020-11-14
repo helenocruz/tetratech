@@ -36,7 +36,7 @@ export class Ibge {
                 resolve(result);
             })
             .catch((error)=>{
-                reject({status: 500, data: error});
+                reject(error);
             });
         });
     }
