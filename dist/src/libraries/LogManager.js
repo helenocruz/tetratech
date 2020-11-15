@@ -31,15 +31,16 @@ var LogManager = /** @class */ (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             fs.readFile(_this.nameFile, 'utf8', function (error, data) {
-                if (error) {
-                    reject(error);
+                if (error || data == null) {
+                    reject(false);
                 }
                 try {
                     var data_Object = JSON.parse(data);
                     resolve(data_Object);
                 }
                 catch (error) {
-                    resolve([]);
+                    //Caso o coteudo no arquivo de texto de dados não esteja no formato JSON, desconsiderar o conteudo.
+                    resolve([{}]);
                 }
             });
         });
@@ -51,9 +52,9 @@ var LogManager = /** @class */ (function () {
             var data_stringify = JSON.stringify(dataToWrite);
             fs.writeFile(_this.nameFile, data_stringify, function (error) {
                 if (error) {
-                    reject({ status: 500, data: 'Erro de escrita em arquivo texto.' });
+                    reject(false);
                 }
-                resolve({ status: 200, data: 'Log salvo com sucesso.' });
+                resolve(true);
             });
         });
     };
@@ -80,7 +81,7 @@ var LogManager = /** @class */ (function () {
                 resolve(logs);
             })
                 .catch(function (error) {
-                reject(false);
+                reject(error);
             });
         });
     };

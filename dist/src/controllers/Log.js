@@ -10,9 +10,17 @@ var Log = /** @class */ (function () {
             var logManager = new LogManager_1.LogManager();
             logManager.getLogs()
                 .then(function (logs) {
+                logs = {
+                    status: 200,
+                    data: logs
+                };
                 resolve(logs);
             })
                 .catch(function (error) {
+                error = {
+                    status: 500,
+                    data: 'Erro na gravação de informações em arquivo UTF8.'
+                };
                 reject(error);
             });
         });

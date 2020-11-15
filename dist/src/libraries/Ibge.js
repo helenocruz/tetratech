@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Ibge = void 0;
-var GlobalRest_1 = require("./GlobalRest");
+var node_fetch_1 = __importDefault(require("node-fetch"));
 var Ibge = /** @class */ (function () {
     function Ibge(datetime_search) {
         if (datetime_search === void 0) { datetime_search = '01012050120000'; }
@@ -10,13 +13,13 @@ var Ibge = /** @class */ (function () {
         this.current_date_Utc = 0;
         this.datetime_search_Date = new Date();
         var current_date = new Date();
-        current_date = new Date(current_date.getTime() - (current_date.getTimezoneOffset() * 60 * 1000));
-        this.current_date_Utc = Date.UTC(current_date.getFullYear(), current_date.getMonth(), current_date.getDay(), current_date.getHours(), current_date.getMinutes(), current_date.getSeconds());
+        current_date = new Date(current_date.getTime() - (current_date.getTimezoneOffset() * 90 * 1000));
+        this.current_date_Utc = Date.UTC(current_date.getFullYear(), current_date.getMonth(), current_date.getDate(), current_date.getHours(), current_date.getMinutes(), current_date.getSeconds());
         var date = datetime_search.substring(4, 8) + '-' + datetime_search.substring(2, 4) + '-' + datetime_search.substring(0, 2);
         var time = datetime_search.substring(8, 10) + ':' + datetime_search.substring(10, 12) + ':' + datetime_search.substring(12, 14);
-        this.datetime_search_Date = new Date(date + ' ' + time);
+        this.datetime_search_Date = new Date(date + 'T' + time);
         this.datetime_search_Date = new Date(this.datetime_search_Date.getTime() - (this.datetime_search_Date.getTimezoneOffset() * 60 * 1000));
-        this.dataSearch_Utc = Date.UTC(this.datetime_search_Date.getFullYear(), this.datetime_search_Date.getMonth(), this.datetime_search_Date.getDay(), this.datetime_search_Date.getHours(), this.datetime_search_Date.getMinutes(), this.datetime_search_Date.getSeconds());
+        this.dataSearch_Utc = Date.UTC(this.datetime_search_Date.getFullYear(), this.datetime_search_Date.getMonth(), this.datetime_search_Date.getDate(), this.datetime_search_Date.getHours(), this.datetime_search_Date.getMinutes(), this.datetime_search_Date.getSeconds());
     }
     Ibge.prototype.calcProjecaoPopulacional = function (projecaoPopulacaoAtual, additionalTime_Utc, incrementoPopulacional) {
         if (projecaoPopulacaoAtual === void 0) { projecaoPopulacaoAtual = 0; }
@@ -32,9 +35,9 @@ var Ibge = /** @class */ (function () {
     Ibge.prototype.getDataIbge = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            GlobalRest_1.getData(_this.url_ibge_projecao_populacao)
+            node_fetch_1.default(_this.url_ibge_projecao_populacao)
                 .then(function (result) {
-                resolve(result);
+                resolve(result.json());
             })
                 .catch(function (error) {
                 reject(error);
@@ -44,7 +47,7 @@ var Ibge = /** @class */ (function () {
     Ibge.prototype.getProjecaoPopulacional = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            if (_this.current_date_Utc < 0 || isNaN(_this.datetime_search_Date.valueOf())) {
+            if ((_this.dataSearch_Utc - _this.current_date_Utc) < 0 || isNaN(_this.datetime_search_Date.valueOf())) {
                 reject({ status: 400, data: { error: "O parâmetro de 'datetime' informado está incorreto." } });
             }
             _this.getDataIbge()

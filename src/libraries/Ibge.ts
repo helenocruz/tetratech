@@ -1,24 +1,24 @@
-import { getData } from './GlobalRest';
+import fetch from 'node-fetch';
 
 export class Ibge {
 
-    protected url_ibge_projecao_populacao : String = "https://servicodados.ibge.gov.br/api/v1/projecoes/populacao";
+    protected url_ibge_projecao_populacao : string = "https://servicodados.ibge.gov.br/api/v1/projecoes/populacao";
     protected dataSearch_Utc : number = 0;
     protected current_date_Utc: number = 0;
     protected datetime_search_Date : Date = new Date();
 
     constructor(datetime_search : String = '01012050120000'){
         let current_date: Date = new Date();
-        current_date = new Date(current_date.getTime() - (current_date.getTimezoneOffset()*60*1000));
-        this.current_date_Utc = Date.UTC(current_date.getFullYear(), current_date.getMonth(), current_date.getDay(), current_date.getHours(), current_date.getMinutes(), current_date.getSeconds());
+        current_date = new Date(current_date.getTime() - (current_date.getTimezoneOffset()*90*1000));
+        this.current_date_Utc = Date.UTC(current_date.getFullYear(), current_date.getMonth(), current_date.getDate(), current_date.getHours(), current_date.getMinutes(), current_date.getSeconds());
 
         let date : String = datetime_search.substring(4,8) + '-' + datetime_search.substring(2,4) + '-' + datetime_search.substring(0,2);
         let time : String = datetime_search.substring(8,10) + ':' + datetime_search.substring(10,12) + ':' + datetime_search.substring(12,14);
         
-        this.datetime_search_Date = new Date(date+' '+time);
+        this.datetime_search_Date = new Date(date+'T'+time);
         this.datetime_search_Date = new Date(this.datetime_search_Date.getTime() - (this.datetime_search_Date.getTimezoneOffset()*60*1000));
         
-        this.dataSearch_Utc = Date.UTC(this.datetime_search_Date.getFullYear(), this.datetime_search_Date.getMonth(), this.datetime_search_Date.getDay(), this.datetime_search_Date.getHours(), this.datetime_search_Date.getMinutes(), this.datetime_search_Date.getSeconds());
+        this.dataSearch_Utc = Date.UTC(this.datetime_search_Date.getFullYear(), this.datetime_search_Date.getMonth(), this.datetime_search_Date.getDate(), this.datetime_search_Date.getHours(), this.datetime_search_Date.getMinutes(), this.datetime_search_Date.getSeconds());
     }
 
     private calcProjecaoPopulacional(projecaoPopulacaoAtual : number = 0, additionalTime_Utc : number = 0, incrementoPopulacional : number = 0) : number | boolean {
@@ -31,9 +31,9 @@ export class Ibge {
 
     getDataIbge() : Promise<object> {
         return new Promise((resolve, reject)=>{
-            getData(this.url_ibge_projecao_populacao)
+            fetch(this.url_ibge_projecao_populacao)
             .then((result)=>{
-                resolve(result);
+                resolve(result.json());
             })
             .catch((error)=>{
                 reject(error);
@@ -43,7 +43,7 @@ export class Ibge {
 
     getProjecaoPopulacional(): Promise<object> {
         return new Promise((resolve, reject)=>{
-            if(this.current_date_Utc < 0 || isNaN(this.datetime_search_Date.valueOf())){
+            if((this.dataSearch_Utc - this.current_date_Utc) < 0 || isNaN(this.datetime_search_Date.valueOf())){
                 reject({status: 400, data: {error: "O parâmetro de 'datetime' informado está incorreto."}});
             }
             this.getDataIbge()

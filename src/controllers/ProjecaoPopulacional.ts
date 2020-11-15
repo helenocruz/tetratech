@@ -1,10 +1,11 @@
 import { Ibge } from '../libraries/Ibge';
+import { LogManager } from '../libraries/LogManager';
 
 export class ProjecaoPopulacional {
 
     datetime_search : String = '';
 
-    constructor(datetime_search : String = '01012050'){
+    constructor(datetime_search : String = '01012050120000'){
         this.datetime_search = datetime_search;
     }
 
@@ -13,6 +14,8 @@ export class ProjecaoPopulacional {
             let ibge = new Ibge(this.datetime_search);
             ibge.getProjecaoPopulacional()
             .then((result)=>{
+                /* let logManager : LogManager = new LogManager();
+                logManager.addLog(result.data); */
                 resolve(result);
             })
             .catch((error)=>{

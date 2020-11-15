@@ -4,7 +4,7 @@ exports.ProjecaoPopulacional = void 0;
 var Ibge_1 = require("../libraries/Ibge");
 var ProjecaoPopulacional = /** @class */ (function () {
     function ProjecaoPopulacional(datetime_search) {
-        if (datetime_search === void 0) { datetime_search = '01012050'; }
+        if (datetime_search === void 0) { datetime_search = '01012050120000'; }
         this.datetime_search = '';
         this.datetime_search = datetime_search;
     }
@@ -14,6 +14,8 @@ var ProjecaoPopulacional = /** @class */ (function () {
             var ibge = new Ibge_1.Ibge(_this.datetime_search);
             ibge.getProjecaoPopulacional()
                 .then(function (result) {
+                /* let logManager : LogManager = new LogManager();
+                logManager.addLog(result.data); */
                 resolve(result);
             })
                 .catch(function (error) {
