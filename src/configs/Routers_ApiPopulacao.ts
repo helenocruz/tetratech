@@ -26,7 +26,7 @@ class Routers_ApiPopulacao extends Router{
 
         application.get('/logs',(req, resp, next) => {
             let logController : Log = new Log();
-            logController.getConsults()
+            logController.getLogs()
             .then((result)=>{
                 resp.status(200);
                 resp.json(result.data);

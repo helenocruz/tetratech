@@ -41,7 +41,7 @@ var Routers_ApiPopulacao = /** @class */ (function (_super) {
         });
         application.get('/logs', function (req, resp, next) {
             var logController = new Log_1.Log();
-            logController.getConsults()
+            logController.getLogs()
                 .then(function (result) {
                 resp.status(200);
                 resp.json(result.data);

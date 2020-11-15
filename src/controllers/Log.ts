@@ -4,7 +4,7 @@ export class Log {
 
     constructor(){}
 
-    getConsults(): Promise <any> {
+    getLogs(): Promise <any> {
         return new Promise((resolve, reject)=>{
             let logManager = new LogManager();
             logManager.getLogs()
