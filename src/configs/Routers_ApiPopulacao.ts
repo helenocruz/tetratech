@@ -13,11 +13,15 @@ class Routers_ApiPopulacao extends Router{
             let projecaoPopulacional = new ProjecaoPopulacional(datetime_search);
             projecaoPopulacional.consult()
             .then((result)=>{
+                resp.header("Access-Control-Allow-Origin", "*");
+                resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 resp.status(result.status);
                 resp.json(result.data);
                 return next();    
             })
             .catch((error)=>{
+                resp.header("Access-Control-Allow-Origin", "*");
+                resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 resp.status(error.status);
                 resp.json(error.data);
                 return next();  
@@ -28,11 +32,15 @@ class Routers_ApiPopulacao extends Router{
             let logController : Log = new Log();
             logController.getLogs()
             .then((result)=>{
+                resp.header("Access-Control-Allow-Origin", "*");
+                resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 resp.status(200);
                 resp.json(result.data);
                 return next();    
             })
             .catch((error)=>{
+                resp.header("Access-Control-Allow-Origin", "*");
+                resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 resp.status(error.status);
                 resp.json(error.data);
                 return next(); 

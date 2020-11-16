@@ -29,11 +29,15 @@ var Routers_ApiPopulacao = /** @class */ (function (_super) {
             var projecaoPopulacional = new ProjecaoPopulacional_1.ProjecaoPopulacional(datetime_search);
             projecaoPopulacional.consult()
                 .then(function (result) {
+                resp.header("Access-Control-Allow-Origin", "*");
+                resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 resp.status(result.status);
                 resp.json(result.data);
                 return next();
             })
                 .catch(function (error) {
+                resp.header("Access-Control-Allow-Origin", "*");
+                resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 resp.status(error.status);
                 resp.json(error.data);
                 return next();
@@ -43,11 +47,15 @@ var Routers_ApiPopulacao = /** @class */ (function (_super) {
             var logController = new Log_1.Log();
             logController.getLogs()
                 .then(function (result) {
+                resp.header("Access-Control-Allow-Origin", "*");
+                resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 resp.status(200);
                 resp.json(result.data);
                 return next();
             })
                 .catch(function (error) {
+                resp.header("Access-Control-Allow-Origin", "*");
+                resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 resp.status(error.status);
                 resp.json(error.data);
                 return next();

@@ -21,6 +21,7 @@
 		"@types/jest": "^26.0.15",
 		"@types/request": "^2.48.5",
 		"@types/restify": "^8.4.2",
+		"@types/restify-cors-middleware": "^1.0.1",
 		"@types/supertest": "^2.0.10",
 		"babel-jest": "^26.6.3",
 		"jest": "^26.6.3",
@@ -35,6 +36,7 @@
 		"@types/node-fetch": "^2.5.7",
 		"axios": "^0.21.0",
 		"node-fetch": "^2.6.1",
-		"restify": "^8.5.1"
+		"restify": "^8.5.1",
+		"restify-cors-middleware": "^1.1.1"
 	}
 }

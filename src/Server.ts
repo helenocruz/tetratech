@@ -11,6 +11,7 @@ export class Server {
     }
 
     startRoutes(routers: Router[]): Promise<any>{
+
         return new Promise((res, rej)=>{
             try {
                 this.application = restify.createServer({
