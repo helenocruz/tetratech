@@ -76,6 +76,9 @@ axios({
 npm start
 
 #Executando testes
+npm test
+
+#Outro opção para executar testes
 jest
 
 ```
@@ -88,9 +91,12 @@ jest
 ## Explanation
 - O sistema foi desenvolvido utilizando o FrameWork Restify, foram criadas 2 Métodos (GET) que respondem a requisições RestFul. Basicamente, a distribuição do sistema pode ser definida como:
 
-- Diretório '/src' : Source do sistema (TypeScript);
-- Diretório '/tests' : Arquivos de teste unitário;
-- Diretório '/dist' : Transpiler do TypeScript;
+  * Diretório '/src' : Source do sistema (TypeScript);
+    * Diretório '/src/config' : Configuraçẽos globais do sistema e sistema de Rotas (EndPoints);
+    * Diretório '/src/controller' : Métodos para atender chamadas de EndPoints;
+    * Diretório '/src/libraries' : Classes de funcionalidades independentes;
+  * Diretório '/tests' : Arquivos de teste unitário;
+  * Diretório '/dist' : Transpiler do TypeScript;
 
 ## Developer
 - Heleno Mário da Cruz Júnior
