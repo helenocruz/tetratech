@@ -43,7 +43,7 @@ node dist/index.js
 
 ## EnPoints
 
-- consult
+- consult: \n
 O EndPoint '/consult' realiza a consulta da projeção populacional brasileira, deve-se informar o parâmetro 'datetime', deforma que seja a data e horario que se deseja a projeção, sendo somente números. Exemplo:
 
 ```js
@@ -54,7 +54,7 @@ axios({
 });
 ```
 
-- logs
+- logs: \n
 O EndPoint /logs, irá retornar o registro das ultimas 10 consultas realizadas na API.
 
 Exemplos:
@@ -67,15 +67,30 @@ axios({
 ```
 
 ## Test
+- O testes são realizados usa o Frameworks Jest, todos os arquivos de testes estão reunidos no diretório '/tests' e possuem extensão '.test.ts'. Para se iniciar os testes, o sistema deve estar rodadno (npm start), e executar o comando Jest na raiz do projeto. Como mostrado no exemplo abaixo:
+
+```bash
+#Execução de testes unitários.
+
+#Iniciando o sistema, caso não esteja em execução
+npm start
+
+#Executando testes
+jest
+
+```
 
 
 ## Live
-- Sistema exemplo, utilizando ReactJs, [Clique aqui] (http://x/) para acessar.
+- Sistema exemplo, utilizando ReactJs, http://x/ .
 
 
-## explanation
-O siste foi desenvolvido utilizando o FrameWork Restify, foram criadas 2 Métodos (GET) que respondem a requisições RestFul (detalha nesta documentação).
+## Explanation
+- O sistema foi desenvolvido utilizando o FrameWork Restify, foram criadas 2 Métodos (GET) que respondem a requisições RestFul. Basicamente, a distribuição do sistema pode ser definida como:
 
+- Diretório '/src' : Source do sistema (TypeScript);
+- Diretório '/tests' : Arquivos de teste unitário;
+- Diretório '/dist' : Transpiler do TypeScript;
 
 ## Developer
 - Heleno Mário da Cruz Júnior
