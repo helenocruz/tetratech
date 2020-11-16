@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProjecaoPopulacional = void 0;
 var Ibge_1 = require("../libraries/Ibge");
+var LogManager_1 = require("../libraries/LogManager");
 var ProjecaoPopulacional = /** @class */ (function () {
     function ProjecaoPopulacional(datetime_search) {
         if (datetime_search === void 0) { datetime_search = '01012050120000'; }
@@ -14,8 +15,8 @@ var ProjecaoPopulacional = /** @class */ (function () {
             var ibge = new Ibge_1.Ibge(_this.datetime_search);
             ibge.getProjecaoPopulacional()
                 .then(function (result) {
-                /* let logManager : LogManager = new LogManager();
-                logManager.addLog(result.data); */
+                var logManager = new LogManager_1.LogManager();
+                logManager.addLog(result.data);
                 resolve(result);
             })
                 .catch(function (error) {

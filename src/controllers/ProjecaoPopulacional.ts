@@ -13,9 +13,9 @@ export class ProjecaoPopulacional {
         return new Promise((resolve, reject)=>{
             let ibge = new Ibge(this.datetime_search);
             ibge.getProjecaoPopulacional()
-            .then((result)=>{
-                /* let logManager : LogManager = new LogManager();
-                logManager.addLog(result.data); */
+            .then((result : any)=>{
+                let logManager : LogManager = new LogManager();
+                logManager.addLog(result.data);
                 resolve(result);
             })
             .catch((error)=>{
