@@ -3,22 +3,33 @@
 Consulta de Projeção Populacional (Consumo de API do IBGE)- Sistema para teste de Desenvolvedor Back-end TetraTech.
 [Exemplo] (http://x/)
 
-
 ## Table of Contents
 
-- [Instalation](#Instalation)
 - [Features](#features)
+- [Instalation](#Instalation)
 - [EnPoints](#enPoints)
 - [Test](#test)
 - [Live](#live)
 - [Explanation](#explanation)
 - [Developer](#developer)
 
+## Features
+- Realiza consulta de Projeção Populacional em API do IBGE, gera cache com os ultimos 10 resultados;
+- Requisições RestFul (GET), metodos /consult e /logs;
+- Retorna resultado em formato JSON;
+- Teste de código utilizando Framework Jest;
+
 ## Instalation
 O sistema deverá ser executado em sistema provido das ferramentas: NodeJS, NPM, TSC e JEST (recomendado instalações de forma global). Exemplo de execução: 
 
 ```bash
 #Instalação de execução.
+
+#Instalação TypeScript
+npm install -g typescript
+
+#Instalação do framework Jest
+npm install -g jest
 
 #Clone repositório
 git clone https://github.com/helenocruz/tetratech
@@ -35,12 +46,6 @@ node dist/index.js
 
 ```
 
-## Features
-- Realiza consulta de Projeção Populacional em API do IBGE, gera cache com os ultimos 10 resultados;
-- Requisições RestFul (GET), metodos /consult e /logs;
-- Retorna resultado em formato JSON;
-- Teste de código utilizando Framework Jest;
-
 ## EnPoints
 
 - consult: \n
@@ -54,6 +59,14 @@ axios({
 });
 ```
 
+```js
+//Usando servidor DEMO: Requição de projeção populacional para a data 08/06/2079 as 11:05:30.
+axios({
+  method: 'get',
+  url: 'http://201.30.92.115:8080/consult?datetime=08062079110530',
+});
+```
+
 - logs: \n
 O EndPoint /logs, irá retornar o registro das ultimas 10 consultas realizadas na API.
 
@@ -62,7 +75,15 @@ Exemplos:
 //Requição dos ultimos 10 registros
 axios({
   method: 'get',
-  url: '/los',
+  url: '/logs',
+});
+```
+
+```js
+//Usando servidor DEMO: Requição dos ultimos 10 registros
+axios({
+  method: 'get',
+  url: 'http://201.30.92.115:8080/logs',
 });
 ```
 
@@ -78,15 +99,13 @@ npm start
 #Executando testes
 npm test
 
-#Outro opção para executar testes
+#Outro opção para executar testes (pasta raiz do projeto)
 jest
 
 ```
 
-
 ## Live
-- Sistema exemplo, utilizando ReactJs, http://x/ .
-
+- Sistema exemplo, utilizando ReactJs, http://201.30.92.115 .
 
 ## Explanation
 - O sistema foi desenvolvido utilizando o FrameWork Restify, foram criadas 2 Métodos (GET) que respondem a requisições RestFul. Basicamente, a distribuição do sistema pode ser definida como:
