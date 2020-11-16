@@ -1,4 +1,4 @@
-# getCarsOlx
+# TretaTech
 
 Consulta de Projeção Populacional (Consumo de API do IBGE)- Sistema para teste de Desenvolvedor Back-end TetraTech.
 [Exemplo] (http://x/)
@@ -6,19 +6,32 @@ Consulta de Projeção Populacional (Consumo de API do IBGE)- Sistema para teste
 
 ## Table of Contents
 
-- [Get Started](#getstarted)
+- [Instalation](#Instalation)
 - [Features](#features)
-- [Métodos de requisição RestFul](#equest-method)
+- [EnPoints](#enPoints)
+- [Test](#test)
 - [Live](#live)
-- [Explicações de funcionamento Interno da API](#explication)
-- [Desenvolvedor](#desenvolvedor)
+- [Explanation](#explanation)
+- [Developer](#developer)
 
-## Get Started
-O sistema deverá ser executado em sistema que provido das ferramentas: NodeJS, NPM, Jest. Exemplo de execução: 
+## Instalation
+O sistema deverá ser executado em sistema provido das ferramentas: NodeJS, NPM, TSC e JEST (recomendado instalações de forma global). Exemplo de execução: 
 
 ```bash
 #Instalação de execução.
-git clone
+
+#Clone repositório
+git clone https://github.com/helenocruz/tetratech
+
+#Instalar dependências
+cd tretatech
+npm install
+
+#Executar sistema (ficará habilitado por padrão na porta 8080)
+npm start
+
+#Pode optar por executar evitando transpiler TypeScript
+node dist/index.js
 
 ```
 
@@ -28,7 +41,7 @@ git clone
 - Retorna resultado em formato JSON;
 - Teste de código utilizando Framework Jest;
 
-## Métodos de requisição RestFul
+## EnPoints
 
 - consult
 O EndPoint '/consult' realiza a consulta da projeção populacional brasileira, deve-se informar o parâmetro 'datetime', deforma que seja a data e horario que se deseja a projeção, sendo somente números. Exemplo:
@@ -53,13 +66,16 @@ axios({
 });
 ```
 
+## Test
+
+
 ## Live
 - Sistema exemplo, utilizando ReactJs, [Clique aqui] (http://x/) para acessar.
 
 
-## Explicações de funcionamento Interno da API
+## explanation
 O siste foi desenvolvido utilizando o FrameWork Restify, foram criadas 2 Métodos (GET) que respondem a requisições RestFul (detalha nesta documentação).
 
 
-## Autor
+## Developer
 - Heleno Mário da Cruz Júnior
